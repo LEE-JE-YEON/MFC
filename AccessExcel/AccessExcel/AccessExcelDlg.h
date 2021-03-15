@@ -36,4 +36,5 @@ public:
 	afx_msg void OnBnClickedUseSystemSeparators();
 	afx_msg void OnBnClickedExcelOptDecimalSeparator();
 	afx_msg void OnBnClickedExcelOptThousandsSeparator();
+	afx_msg void OnBnClickedButton4();
 };

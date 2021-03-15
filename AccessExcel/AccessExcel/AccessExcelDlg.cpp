@@ -69,6 +69,7 @@ BEGIN_MESSAGE_MAP(CAccessExcelDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CAccessExcelDlg::OnBnClickedUseSystemSeparators)
 	ON_BN_CLICKED(IDC_BUTTON2, &CAccessExcelDlg::OnBnClickedExcelOptDecimalSeparator)
 	ON_BN_CLICKED(IDC_BUTTON3, &CAccessExcelDlg::OnBnClickedExcelOptThousandsSeparator)
+	ON_BN_CLICKED(IDC_BUTTON4, &CAccessExcelDlg::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
 
@@ -220,6 +221,8 @@ void CAccessExcelDlg::OnBnClickedUseSystemSeparators()
 			bUseSystemSeparators = vargReturn.boolVal;
 		}
 	}
+	app.ReleaseDispatch();
+
 	AfxMessageBox(bUseSystemSeparators ? _T("TRUE") : _T("FALSE"));
 }
 
@@ -341,4 +344,98 @@ void CAccessExcelDlg::OnBnClickedExcelOptThousandsSeparator()
 	AfxMessageBox(strThousandsSeparator);
 
 	app.ReleaseDispatch();
+}
+
+void CAccessExcelDlg::OnBnClickedButton4()
+{
+	// 선언
+	CoInitialize(NULL);
+
+	_Application app = NULL;
+	Workbooks books = NULL;
+	_Workbook book = NULL;
+	Worksheets sheets = NULL;
+	_Worksheet sheet = NULL;
+
+	// 초기화
+	COleException oleException;
+	if (!app.CreateDispatch(_T("Excel.Application"), &oleException))
+	{
+		CString strError;
+		oleException.GetErrorMessage(strError.GetBuffer(260), 260);
+
+		CString strMsg;
+		strMsg.Format(_T("GetLastError : %d, %s"), ::GetLastError(), strError);
+		AfxMessageBox(strMsg);
+		return;
+	}
+
+	books = app.GetWorkbooks();
+	book = books.Add(COleVariant((long)DISP_E_PARAMNOTFOUND, VT_ERROR));
+	sheets = book.GetWorksheets();
+	sheet = sheets.GetItem(COleVariant((short)1));
+
+	app.SetVisible(TRUE);
+
+	// A1 ~ G5 셀에 입력하기 위한 배열에 데이터 설정
+	COleSafeArray sa;
+	long rows = 5, cols = 7;
+	unsigned long elements[] = { rows, cols };
+	sa.Create(VT_VARIANT, _countof(elements), elements);
+
+	CString strTemp;
+	for (size_t row = 0; row < rows; row++)
+	{
+		for (size_t col = 0; col < cols; col++)
+		{
+			long index[] = { row, col };
+			VARIANT v;
+			VariantInit(&v);
+
+			strTemp.Format(_T("TEST (%d, %d)"), row, col);
+
+			// 텍스트 형식 외에 다른 형식인 경우 vt값을 수정
+			v.vt = VT_BSTR;
+			v.bstrVal = strTemp.AllocSysString();
+			sa.PutElement(index, &v);
+			SysFreeString(v.bstrVal);
+			VariantClear(&v);
+		}
+	}
+	// 데이터 설정
+	Range range = sheet.GetRange(COleVariant(_T("A1")), COleVariant(_T("A1")));
+	range = range.GetResize(COleVariant(rows), COleVariant(cols));
+	range.SetValue(COleVariant(sa));
+	sa.Detach();
+
+	// 셀 서식 설정
+	for (size_t col = 0; col < cols; col++)
+	{
+		strTemp.Format(_T("%d"), col + 1);
+		Range range = sheet.GetRange(COleVariant(_T("A") + strTemp), COleVariant(_T("G") + strTemp));
+		range = range.GetResize(COleVariant(rows), COleVariant(1L));
+		range.SetNumberFormatLocal(COleVariant(_T("@")));
+	}
+
+	Range allRange = sheet.GetRange(COleVariant(_T("A1")), COleVariant(_T("G5")));
+	Range colRange(allRange.GetColumns());
+	colRange.AutoFit();
+
+	// 셀에 데이터 입력
+	//Range range = sheet.GetRange(COleVariant(_T("A10")), COleVariant(_T("A10")));
+	/*VARIANT v;
+	VariantInit(&v);
+	v.vt = VT_BSTR;
+	v.bstrVal = strTemp.AllocSysString();
+	SysFreeString(v.bstrVal);
+	range.SetValue(v);
+	VariantClear(&v);*/
+
+	// 릴리즈
+	sheet.ReleaseDispatch();
+	sheets.ReleaseDispatch();
+	book.ReleaseDispatch();
+	books.ReleaseDispatch();
+	app.ReleaseDispatch();
+	CoUninitialize();
 }
