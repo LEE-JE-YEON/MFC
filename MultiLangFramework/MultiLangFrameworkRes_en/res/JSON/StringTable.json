@@ -1,0 +1,10 @@
+{
+  "PROGRAM_TITLE": "english version.",
+  "PROGRAM_LANGUAGE_KO": "korean",
+  "PROGRAM_LANGUAGE_EN": "english",
+  "PROGRAM_LANGUAGE_JP": "japanese",
+  "REGISTRY_FAIL": "fail to register",
+  "REGISTRY_SUCCESS": "success register",
+  "REGISTRY_ALREADY_REG": "already registed",
+  "LANGUAGE_CHANGE_SUCCESS": "changed language\napply after restart"
+}

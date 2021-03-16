@@ -1,0 +1,10 @@
+{
+  "PROGRAM_TITLE": "日本語です.",
+  "PROGRAM_LANGUAGE_KO": "韓国語",
+  "PROGRAM_LANGUAGE_EN": "英語",
+  "PROGRAM_LANGUAGE_JP": "日本語",
+  "REGISTRY_FAIL": "レジストリ登録失敗",
+  "REGISTRY_SUCCESS": "レジストリ登録成功",
+  "REGISTRY_ALREADY_REG": "もう登録しているレジストリです。",
+  "LANGUAGE_CHANGE_SUCCESS": "言語変更成功\n再起動後適用完了"
+}

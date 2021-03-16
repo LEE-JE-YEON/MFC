@@ -1,0 +1,10 @@
+{
+  "PROGRAM_TITLE": "한국버전입니다.",
+  "PROGRAM_LANGUAGE_KO": "한국어",
+  "PROGRAM_LANGUAGE_EN": "영어",
+  "PROGRAM_LANGUAGE_JP": "일본어",
+  "REGISTRY_FAIL": "레지스트리 등록 실패",
+  "REGISTRY_SUCCESS": "레지스트리 등록 성공",
+  "REGISTRY_ALREADY_REG": "이미 등록된 레지스트입니다.",
+  "LANGUAGE_CHANGE_SUCCESS": "언어 변경 완료\n재시작후 적용됨"
+}
