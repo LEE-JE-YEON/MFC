@@ -81,6 +81,9 @@
     <ClInclude Include="Log\DlgLog.h">
       <Filter>Log</Filter>
     </ClInclude>
+    <ClInclude Include="MyLog.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -127,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="Log\DlgLog.cpp">
       <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="MyLog.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

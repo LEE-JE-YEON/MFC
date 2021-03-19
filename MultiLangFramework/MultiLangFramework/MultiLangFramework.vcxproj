@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)\Lib\stlsoft-1.9.124\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,7 +147,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)\Lib\stlsoft-1.9.124\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -207,6 +207,7 @@
     <ClInclude Include="Log\DlgLog.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MultiLangFramework.h" />
+    <ClInclude Include="MyLog.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Registry\DlgRegistryAdd.h" />
     <ClInclude Include="Registry\DlgRegistryDel.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="Log\DlgLog.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MultiLangFramework.cpp" />
+    <ClCompile Include="MyLog.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
