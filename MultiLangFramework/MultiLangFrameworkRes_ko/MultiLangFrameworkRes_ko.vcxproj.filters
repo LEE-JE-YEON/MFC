@@ -41,6 +41,7 @@
     <None Include="res\JSON\StringTable.json">
       <Filter>리소스 파일\JSON</Filter>
     </None>
+    <None Include="res\Browser.html" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\MultiLangFrameworkRes_ko.ico">

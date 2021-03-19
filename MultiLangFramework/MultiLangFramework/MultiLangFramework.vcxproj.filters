@@ -19,6 +19,12 @@
     <Filter Include="Language">
       <UniqueIdentifier>{cf830a2b-724a-432d-86ef-c1a85a4af50d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Browser">
+      <UniqueIdentifier>{f56cae67-09bc-4a0f-8a33-256f0fb78ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{2c5566a4-69cd-408d-918b-5354faf5cf8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -66,6 +72,15 @@
     <ClInclude Include="MultiLangFramework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Browser\DlgExplorerBrowser.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="Browser\ExplorerCtrl.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="Log\DlgLog.h">
+      <Filter>Log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -103,6 +118,15 @@
     </ClCompile>
     <ClCompile Include="MultiLangFramework.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Browser\DlgExplorerBrowser.cpp">
+      <Filter>Browser</Filter>
+    </ClCompile>
+    <ClCompile Include="Browser\ExplorerCtrl.cpp">
+      <Filter>Browser</Filter>
+    </ClCompile>
+    <ClCompile Include="Log\DlgLog.cpp">
+      <Filter>Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

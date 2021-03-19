@@ -3,7 +3,6 @@
 
 #include "pch.h"
 #include "DlgChangeLanguage.h"
-#include "afxdialogex.h"
 #include <fstream>
 
 

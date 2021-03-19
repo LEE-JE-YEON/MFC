@@ -3,7 +3,6 @@
 
 #include "pch.h"
 #include "DlgRegistryAdd.h"
-#include "afxdialogex.h"
 #include "Registry.h"
 
 

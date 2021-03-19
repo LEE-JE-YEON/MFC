@@ -196,12 +196,15 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Browser\DlgExplorerBrowser.h" />
+    <ClInclude Include="Browser\ExplorerCtrl.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="JsonStringTable.h" />
     <ClInclude Include="Language\DlgChangeLanguage.h" />
     <ClInclude Include="LoginInfo.h" />
+    <ClInclude Include="Log\DlgLog.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MultiLangFramework.h" />
     <ClInclude Include="pch.h" />
@@ -213,11 +216,14 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Browser\DlgExplorerBrowser.cpp" />
+    <ClCompile Include="Browser\ExplorerCtrl.cpp" />
     <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="JsonStringTable.cpp" />
     <ClCompile Include="Language\DlgChangeLanguage.cpp" />
     <ClCompile Include="LoginInfo.cpp" />
+    <ClCompile Include="Log\DlgLog.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MultiLangFramework.cpp" />
     <ClCompile Include="pch.cpp">

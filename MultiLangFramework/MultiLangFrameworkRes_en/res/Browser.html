@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=11">
+  <style>
+    #googleMap {
+      width: 730px;
+      height: 530px;
+    }
+  </style>
+</head>
+
+<body oncontextmenu="return false">
+  <div id="googleMap"></div>
+  <script type="text/javascript">
+    // 마우스 우클릭 컨텍스트 메뉴 표시 방지
+    _stopContextMenu();
+
+    // 전역변수 선언부
+    const m_mapOptions = {
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: false
+    };
+    const icons = {
+      becha: 'https://www.icontech84.com/googleImages/becha.png',
+      wait: 'https://www.icontech84.com/googleImages/wait.png',
+      default: 'http://maps.google.com/mapfiles/marker.png'
+    };
+    var m_map;
+    var m_markers = [];
+    var m_lines = null;
+
+
+
+    // 함수 선언부
+
+
+
+    function OnSize(jsonParam) {
+      let width;
+      let height;
+      const sizeObject = JSON.parse(jsonParam);
+      if (sizeObject === undefined) {
+        const mapCss = document.querySelector('#googleMap');
+        width = mapCss.width;
+        height = mapCss.height;
+      } else {
+        width = sizeObject.width;
+        height = sizeObject.height;
+      }
+
+      const mapElement = document.getElementById('googleMap');
+      mapElement.style.width = width + 'px';
+      mapElement.style.height = height + 'px';
+    }
+
+    // 마우스 우클릭 방지
+    function _stopContextMenu() {
+      if (window.addEventListener) {
+        // 마우스 우클릭 컨텍스트 메뉴 이벤트 중지
+        //document.addEventListener("contextmenu", _stopEvent, false);
+        document.addEventListener("contextmenu", function (e) {
+          if (window.event) {
+            window.event.cancelBubble = true;
+            window.event.returnValue = false;
+          }
+          //DOM 레벨 2
+          if (e && e.stopPropagation && e.preventDefault) {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        }, false);
+      }
+    }
+
+
+    // 맵 센터 위치 변경
+    function ChangeMapCenter(jsonParam) {
+      const centerPos = JSON.parse(jsonParam);
+      // 지도 위치 변경
+      m_map.setCenter(new google.maps.LatLng(Number(centerPos.lat), Number(centerPos.lng)));
+    }
+
+
+    // 지도 화면상 마커와 라인 삭제
+    function RemoveAllMarkers() {
+      // 기사 마커 삭제
+      for (var i = 0; i < m_markers.length; i++) {
+        m_markers[i].setMap(null);
+      }
+      m_markers = [];
+
+      // 기사 마커간 라인 삭제
+      if (m_lines)
+        m_lines.setMap(null);
+    }
+
+
+    // 기사 마커 및 라인 표시
+    function SetDriverMarkers(markersInfo, drawLine) {
+      // 기사 마커 기준 화면 재조정
+      //var bounds = new google.maps.LatLngBounds();
+      // 기사 클릭시, 팝업화면
+      var infoWindow = new google.maps.InfoWindow();
+
+      // 기사 마커간 라인 표시하는 경우
+      var lineArray = new Array();
+
+      // 기사 표시
+      RemoveAllMarkers();
+      for (var i = 0; i < markersInfo.length; i++) {
+        const drivInfo = markersInfo[i];
+        // 기사 마커 위치 지정 후, 마커 생성
+        const position = new google.maps.LatLng(Number(drivInfo.drivLat), Number(drivInfo.drivLng));
+        //bounds.extend(position);
+        const marker = new google.maps.Marker({
+          position: position,
+          map: m_map,
+          title: drivInfo.drivName,
+          icon: (drivInfo.drivStatus === '001' ? icons.becha : drivInfo.drivStatus === '002' ? icons.wait : icons
+            .default)
+        });
+        m_markers.push(marker);
+        // 기사 클릭시, 이벤트 설정
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+          return function () {
+            infoWindow.setContent(
+              '<div class="info_content">' +
+              '<p>' + drivInfo.drivName + '</p>' + '</div>');
+            infoWindow.open(m_map, marker);
+            external.OnMarkerClickDriv(drivInfo.drivNo);
+          }
+        })(marker, i));
+        //m_map.fitBounds(bounds);
+
+        // 기사 마커간 라인 표시하는 경우
+        if (drawLine === true) {
+          var line = new Object();
+          line.lat = Number(drivInfo.drivLat);
+          line.lng = Number(drivInfo.drivLng);
+          lineArray.push(line);
+        }
+      }
+
+      // 기사 마커간에 경로 표시하는 경우
+      if (lineArray.length > 0) {
+        const polyline = new google.maps.Polyline({
+          path: lineArray,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 3,
+          map: m_map,
+        });
+        m_lines = polyline;
+      }
+    }
+
+
+    // 기사 마커 및 라인 표시
+    function RefreshMap(jsonParam) {
+      var curPosLat;
+      var curPosLng;
+      var curZoomLevel;
+      var markersInfo;
+      var drawLine = false;
+
+      const initInfoObject = JSON.parse(jsonParam);
+
+      if (initInfoObject === undefined) {
+        // 초기화 정보 취득 불가시, 기본정보 설정
+        curPosLat = 21.026582; // 기본 위도(하노이)
+        curPosLng = 105.834217; // 기본 경도(하노이)
+        curZoomLevel = 15; // 기본 줌
+      } else {
+        curPosLat = Number(initInfoObject.lat);
+        curPosLng = Number(initInfoObject.lng);
+        curZoomLevel = Number(initInfoObject.zoomLevel);
+        markersInfo = initInfoObject.markersInfo;
+        drawLine = initInfoObject.drawLine == 'true' ? true : false
+      }
+
+      // 지도 위치 변경
+      m_map.setCenter({
+        lat: curPosLat,
+        lng: curPosLng
+      });
+      // 지도 줌 변경
+      m_map.setZoom(curZoomLevel);
+      // 기사 마커 설정
+      SetDriverMarkers(markersInfo, drawLine);
+    }
+
+    // 구글 맵 로딩
+    function LoadGoogleMap() {
+      var curPosLat;
+      var curPosLng;
+      var curZoomLevel;
+      var markersInfo;
+      var drawLine = false;
+
+      // 초기화 정보 취득
+      const initInfoObject = JSON.parse(window.external.GetInitInfo());
+      if (initInfoObject === undefined) {
+        // 초기화 정보 취득 불가시, 기본정보 설정
+        curPosLat = 21.026582; // 기본 위도(하노이)
+        curPosLng = 105.834217; // 기본 경도(하노이)
+        curZoomLevel = 15; // 기본 줌
+      } else {
+        curPosLat = Number(initInfoObject.lat);
+        curPosLng = Number(initInfoObject.lng);
+        curZoomLevel = Number(initInfoObject.zoomLevel);
+        markersInfo = initInfoObject.markersInfo;
+        drawLine = initInfoObject.drawLine == 'true' ? true : false
+      }
+      // 구글 맵 초기화
+      m_map = new google.maps.Map(document.getElementById('googleMap'), {
+        zoom: curZoomLevel,
+        center: {
+          lat: curPosLat,
+          lng: curPosLng
+        },
+        options: m_mapOptions
+      });
+      // 기사 마커 설정
+      SetDriverMarkers(markersInfo, drawLine);
+    }
+  </script>
+
+  <!-- language = 한국 : ko, 베트남 : vi -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZKxypRdFzbOu4Go0B4XieL2rCFeP6YQs&callback=LoadGoogleMap&language=ko">
+  </script>
+
+</body>
+
+</html>

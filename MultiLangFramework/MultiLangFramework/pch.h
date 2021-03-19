@@ -12,8 +12,12 @@
 #include "LoginInfo.h"
 #include "Resource.h"
 #include "JsonStringTable.h"
+#include <afxhtml.h>
+#include <afxdialogex.h>
+#include "MyLog.h"
 
 extern CLoginInfo g_LoginInfo;
 extern CJsonStringTable g_JsonString;
+extern CMyLog g_Log;
 
 #endif //PCH_H

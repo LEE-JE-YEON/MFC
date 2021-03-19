@@ -173,6 +173,7 @@
     <ResourceCompile Include="MultiLangFrameworkRes_en.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\Browser.html" />
     <None Include="res\JSON\StringTable.json" />
   </ItemGroup>
   <ItemGroup>
