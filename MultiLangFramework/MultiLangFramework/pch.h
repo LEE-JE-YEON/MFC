@@ -20,4 +20,6 @@ extern CLoginInfo g_LoginInfo;
 extern CJsonStringTable g_JsonString;
 extern CMyLog g_Log;
 
+#define UWM_EVENT_FROM_JAVASCRIPT_EXPOLRER		(WM_USER+0x2000)
+
 #endif //PCH_H
