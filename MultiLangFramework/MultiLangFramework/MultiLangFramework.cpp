@@ -106,6 +106,8 @@ BOOL CMyFrameWork2App::InitInstance()
 	if (!_initLanguage())
 		return FALSE;
 
+	g_Log.Initialize(TRUE, TRUE, TRUE, TRUE);
+
 	// 주 창을 만들기 위해 이 코드에서는 새 프레임 창 개체를
 	// 만든 다음 이를 응용 프로그램의 주 창 개체로 설정합니다.
 	CMDIFrameWnd* pFrame = new CMainFrame;
